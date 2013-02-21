@@ -2,7 +2,7 @@
 // Autor: Florian Giller
 // Date : 05.11.2012
 // Update: Leon Bergmann - 23.01.2013 08:53 Uhr   
-error_reporting(0);
+//error_reporting(1);
 require_once($_SERVER["DOCUMENT_ROOT"]."/coffee/static/class.settings.php");
 require_once($_SERVER["DOCUMENT_ROOT"]."/coffee/static/class.database.php");
 require_once($_SERVER["DOCUMENT_ROOT"]."/coffee/static/class.loginAPI.php");
@@ -274,8 +274,9 @@ if($settings->getSession('auth') and !isset($_GET['dev']))
 				$leftMenu		.= view::viewLeftMenu("plan");
 				break;
 			
-			case "newProxyInform";
-				$data = array("teacher"=>$teacher->listAllTeacher(),"subjects"=>$subject->listAllSubject());
+			case "newProxyInform":
+				$data = array("teachers"=>$teacher->listAllTeacher(),"subjects"=>$subject->listAllSubject(),"combination"=>$teacher_subject->getComninationID());
+				//print_r($data);
 				$contentField	.= $view->newProxySet($data);
 				$leftMenu		.= view::viewLeftMenu("plan");
 				break;

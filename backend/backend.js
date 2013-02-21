@@ -167,3 +167,47 @@ function resetList()
 
 	
 }
+
+function ergebnisZeigen( selected )
+{
+	if( selected.length )
+	{
+		/*
+		 * Auswahlstrecke wurde beendet
+		 */
+
+		// Visualisierung der Auswahlstrecke
+		
+		var sel = '';
+		var val = '';
+		var txt = '';
+		for( var i = 0; i < selected.length; i++ )
+		{
+			txt += ( i>0 ? ' &rarr; ' : '') + selected[i].text;
+		}
+		var output = '<'+'/p><h4>Texte (Namen) der gew&auml;hlten Optionen<'+'/h4><p>' + txt + '<'+'/p>';
+	}
+	else
+	{
+		/*
+		 * Auswahlstrecke wurde noch nicht beendet
+		 */
+
+		// Hinweis zur Auswahl in der nächsten Auswahlliste
+		var output = '<p>W&auml;hlen Sie eine Option aus der n&auml;chsten Auswahlliste.<'+'/p>';
+	}
+	var ergebnisObj = document.getElementById( 'ergebnis' ).innerHTML = output;
+};
+
+window.onload = function()
+{
+	var vk = new LinkedSelection( [ 'teacher', 'subject'], ergebnisZeigen, auswahl );
+	
+	parrentObj 	= document.getElementById('teacher');
+	liste = auswahl.teacher;
+	for(key in liste)
+	{
+		parrentObj.options[parrentObj.length] = new Option(liste[key],key);
+	}
+	
+}

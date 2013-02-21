@@ -460,10 +460,33 @@ return $output;
 	
 	public function newProxySet($data)
 	{
+		//$data['teacher']
+		//array("teacher"=>)
+		
+		foreach($data['teachers'] as $teacher)
+		{
+			$tAsID[$teacher['id']] = $teacher['vorname']." ".$teacher['name'];
+		}
+				foreach($data['subjects'] as $subjects)
+		{
+			$sAsID[$subjects['id']] = $subjects['name'];	
+		}
+			
+		foreach($data['combination'] as $com)
+		{
+			
+			$response['teacher'][$com['lehrer-id']] = array($tAsID[$com['lehrer-id']]);
+			$response['subject'][$com['lehrer-id']][] = array($com['fach-id'],$sAsID[$com['fach-id']]);
+				
+		}		
+		
+		//print_r($response);
+		
 		$output = "DIE WAHL!";
-		$output .= '<script type="text/javascript">var rooms = eval(\'('.json_encode($data).')\');</script>';
+		$output .= '<script type="text/javascript">var auswahl = '.json_encode($response).';</script><script type="text/javascript" src="http://aktuell.de.selfhtml.org/artikel/javascript/verkettete-auswahllisten/LinkedSelection.js"></script>';
+		
 		$output .= '<form onload="newProxyInformField();" id="vertretungAuswahl" method="post" action="?v='.$_GET['v'].'&a=newProxySet"></form>';
-		$output	.= '<button onclick="newRoomChangeField();">weitere Raum&auml;nderung</button>';
+		$output	.= '<p><label id="teacherLabel" for="teacher">Lehrer:</label><select id="teacher"><option value="--">------</option></select><label id="subjectLabel" for="subject">Lesung:</label><select id="subject"><option value="--">------</option></select></p><div id="ergebnis"></div>';
 		$output	.= '<button onclick="safe();">Speichern</button>';
 		
 		return $output;
